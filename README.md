@@ -4,7 +4,7 @@
 
 # Deployment
 
-## Deploy on Kubernetes with Terraform 
+## Provision a new Kubernetes Cluster with Terraform 
 
 1. Download [Terraform](https://www.terraform.io/downloads.html)
 1. Initialize terraform with `terraform init`
@@ -41,6 +41,8 @@ kubectl apply -f psql-service.yaml
 ```
 
 ## Deploying the services
+
 TODO
 
 # API Reference
+
