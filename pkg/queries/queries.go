@@ -3,9 +3,9 @@ package queries
 var (
 	CreateScoresTable = `
 	CREATE TABLE IF NOT EXISTS scores (
-		user_id VARCHAR(40) UNIQUE NOT NULL,
+		user_id VARCHAR(40) NOT NULL,
 		point SMALLINT,
-		timestamp TIMESTAMP NOT NULL
+		timestamp INTEGER NOT NULL
 	)
 	`
 
@@ -13,7 +13,7 @@ var (
 	CREATE TABLE IF NOT EXISTS users (
 		id VARCHAR(40) UNIQUE NOT NULL,
 		name VARCHAR(40) UNIQUE NOT NULL,
-		created_at TIMESTAMP,
+		created_at INTEGER,
 		country VARCHAR(10)
 	)
 	`
@@ -32,17 +32,17 @@ var (
 	`
 
 	GetLeaderboard = `
-	SELECT *, 
+	SELECT *
 	FROM leaderboard`
 
 	GetLeaderboardWithCountry = `
-	SELECT *, 
+	SELECT *
 	FROM leaderboard
-	WHERE COUNTRY = %s`
+	WHERE COUNTRY = $1`
 
-	SubmitScore = `
+	InsertScore = `
 	INSERT INTO scores
-	VALUES ()
+	VALUES ($1, $2, $3)
 	`
 
 	// TODO

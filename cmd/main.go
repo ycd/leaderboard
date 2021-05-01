@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -17,5 +18,5 @@ func main() {
 	})
 
 	port := os.Getenv("PORT")
-	app.Listen(fmt.Sprintf(":%s", port))
+	log.Fatal(app.Listen(fmt.Sprintf(":%s", port)))
 }

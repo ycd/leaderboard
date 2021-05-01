@@ -10,10 +10,19 @@ import (
 	"github.com/ycd/leaderboard/pkg/queries"
 )
 
+// Storage holds the connection pool between PostgreSQL.
+// With a bunch of methods on top of it.
 type Storage struct {
 	connection *pgxpool.Pool
 }
 
+func init() {
+	ctx := context.Background()
+	storage := NewStorage(ctx)
+	storage.createTables(ctx)
+}
+
+// NewStorage creates a new Storage
 func NewStorage(ctx context.Context) *Storage {
 	postgresPassword := os.Getenv("POSTGRES_PASSWORD")
 	postgresUsername := os.Getenv("POSTGRES_USERNAME")
@@ -25,15 +34,12 @@ func NewStorage(ctx context.Context) *Storage {
 		log.Fatalf("ERROR: unable to connect PSQL: %v", err)
 	}
 
-	storage := &Storage{
+	return &Storage{
 		connection: conn,
 	}
-
-	storage.createTables(ctx)
-
-	return storage
 }
 
+// Create the tables on startup, this function intented to run only on startup.
 func (s *Storage) createTables(ctx context.Context) {
 	for _, query := range []string{
 		queries.CreateScoresTable,
@@ -49,20 +55,62 @@ func (s *Storage) createTables(ctx context.Context) {
 	}
 }
 
-func (s *Storage) GetLeaderboard() error {
+// GetLeaderboard returns the results from leaderboard table.
+func (s *Storage) GetLeaderboard() (interface{}, error) {
 	rows, err := s.connection.Query(context.Background(), queries.GetLeaderboard)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
+	var data []interface{}
 	for rows.Next() {
 		v, err := rows.Values()
 		if err != nil {
 			log.Println("Got error:", err)
 		}
 
-		fmt.Println("Got value:", v)
+		log.Println("Got value:", v)
 	}
 
-	return nil
+	return data, nil
+}
+
+// GetLeaderboardWithCountry returns the results from leaderboard table with specific country.
+func (s *Storage) GetLeaderboardWithCountry(country string) (interface{}, error) {
+	rows, err := s.connection.Query(context.Background(), queries.GetLeaderboardWithCountry, country)
+	if err != nil {
+		return nil, err
+	}
+
+	var data []interface{}
+	for rows.Next() {
+		v, err := rows.Values()
+		if err != nil {
+			log.Println("Got error:", err)
+		}
+
+		data = append(data, v)
+	}
+
+	return data, nil
+}
+
+// GetLeaderboardWithCountry returns the results from leaderboard table with specific country.
+func (s *Storage) ScoreSubmit(ScoreWorth float32, UserID string, Timestamp int) (interface{}, error) {
+	rows, err := s.connection.Query(context.Background(), queries.InsertScore, UserID, ScoreWorth, Timestamp)
+	if err != nil {
+		return nil, err
+	}
+
+	var data []interface{}
+	for rows.Next() {
+		v, err := rows.Values()
+		if err != nil {
+			log.Println("Got error:", err)
+		}
+
+		data = append(data, v)
+	}
+
+	return data, nil
 }

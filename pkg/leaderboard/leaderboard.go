@@ -16,10 +16,29 @@ func NewLeaderboard(ctx context.Context) *Leaderboard {
 	}
 }
 
-func (l *Leaderboard) GetLeaderboard() error {
-	if err := l.storage.GetLeaderboard(); err != nil {
-		return err
+func (l *Leaderboard) GetLeaderboard() (interface{}, error) {
+	data, err := l.storage.GetLeaderboard()
+	if err != nil {
+		return nil, err
 	}
 
-	return nil
+	return data, nil
+}
+
+func (l *Leaderboard) GetLeaderboardWithCountry(country string) (interface{}, error) {
+	data, err := l.storage.GetLeaderboardWithCountry(country)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
+func (l *Leaderboard) ScoreSubmit(body *ScoreSubmit) (interface{}, error) {
+	data, err := l.storage.ScoreSubmit(body.ScoreWorth, body.UserID, body.Timestamp)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
 }

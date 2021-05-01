@@ -6,8 +6,8 @@ import (
 
 func ModifyPaths(f *fiber.App) {
 	f.Get("/leaderboard", HandleLeaderboard)
-	// f.Get("/leaderboard/:country")
+	f.Get("/leaderboard/:country", HandleLeaderboardWithcountry)
 	// f.Get("/user/profile/:guid")
 	// f.Post("/user/create")
-	// f.Post("/score/submit")
+	f.Post("/score/submit", HandleScoreSubmit)
 }
