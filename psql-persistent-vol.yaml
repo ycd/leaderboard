@@ -1,0 +1,25 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: leaderboard-storage 
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+  fstype: ext4
+allowedTopologies:
+  - matchLabelExpressions:
+      - key: failure-domain.beta.kubernetes.io/zone
+        values:
+          - europe-west3-a 
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgresql-pv
+spec:
+  storageClassName: leaderboard-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi 

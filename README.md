@@ -18,4 +18,29 @@ gcloud container clusters get-credentials $( echo var.name | terraform console )
     --project $( echo var.project | terraform console )
 ``` 
 
+6. After a few minutes of provisioning your cluster must be ready, test it with `kubectl cluster-info`.
+
+## Deploy PostgreSQL on Kubernetes
+
+1. Create Persistent volume. 
+
+```bash
+kubectl apply -f psql-persistent-vol.yaml
+```
+
+2. Apply The PostgreSQL deployment.
+
+```bash
+kubectl apply -f psql-service.yaml
+```
+
+3. Apply the PostgreSQL service. 
+
+```bash
+kubectl apply -f psql-service.yaml
+```
+
+## Deploying the services
+TODO
+
 # API Reference
