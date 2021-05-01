@@ -13,7 +13,9 @@
 1. Get the kubeconfig file by running the following command 
 
 ```bash
-gcloud container clusters get-credentials $( echo var.name | terraform console ) --zone $( echo var.location | terraform console ) --project $( echo var.project | terraform console )
+gcloud container clusters get-credentials $( echo var.name | terraform console ) \
+    --zone $( echo var.location | terraform console )   \
+    --project $( echo var.project | terraform console )
 ``` 
 
 # API Reference
