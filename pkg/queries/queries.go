@@ -20,7 +20,7 @@ var (
 
 	CreateUserWithScoresView = `
 	CREATE VIEW UsersWithScores AS
-	SELECT *, (SELECT SUM(point)+1000 as point FROM scores s WHERE u.id=s.user_id ) as point FROM users u
+	SELECT *, (SELECT SUM(point) as point FROM scores s WHERE u.id=s.user_id ) as point FROM users u
 	`
 
 	CreateLeaderboardTable = `
