@@ -35,7 +35,7 @@ func (s *Storage) GetLeaderboardWithCountry(country string) (interface{}, error)
 	if err != nil {
 		return nil, err
 	}
-	log.Println("country is: ", country)
+
 	var data []interface{}
 	for rows.Next() {
 		var lr LeaderboardResult
@@ -73,13 +73,13 @@ func (s *Storage) UserCreate(userID, userName, country string) (interface{}, err
 
 	user, err := s.GetUser(userID)
 	if err != nil {
-		log.Println(err)
 		return nil, err
 	}
 
 	return user, nil
 }
 
+// GetUser retrieves the information about the user.
 func (s *Storage) GetUser(userID string) (interface{}, error) {
 	var u UserInfo
 

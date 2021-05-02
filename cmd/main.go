@@ -11,11 +11,7 @@ import (
 
 func main() {
 	app := fiber.New()
-
 	handlers.ModifyPaths(app)
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World 👋!")
-	})
 
 	port := os.Getenv("PORT")
 	log.Fatal(app.Listen(fmt.Sprintf(":%s", port)))
