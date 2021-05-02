@@ -1,7 +1,7 @@
 package leaderboard
 
 type ScoreSubmit struct {
-	ScoreWorth float32 `json:"score_worth"`
+	ScoreWorth float64 `json:"score_worth"`
 	UserID     string  `json:"user_id"`
 }
 

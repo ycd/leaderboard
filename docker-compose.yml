@@ -2,6 +2,7 @@ version: "3.9"
 services: 
   web:
     image: leaderboard:latest
+    restart: on-failure
     ports: 
       - "8000:8000"
     volumes: 

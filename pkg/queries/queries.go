@@ -22,10 +22,10 @@ var (
 		u.name,
 		u.country,
 		(
-			SELECT SUM(s.point)
+			SELECT COALESCE(SUM(s.point), 0)
 			FROM scores s
 			WHERE u.user_id=s.user_id
-		) AS point
+		) AS points
 	FROM users u
 	`
 
@@ -33,17 +33,27 @@ var (
 	CREATE VIEW leaderboard AS
 	SELECT 
 		*,
-		RANK() OVER (ORDER BY point desc) as rank 
+		RANK() OVER (ORDER BY points desc) as rank 
 	FROM UsersWithScores`
 
 	GetLeaderboard = `
-	SELECT *
-	FROM leaderboard`
+	SELECT 
+		rank,
+		points,
+		name as display_name,
+		country
+	FROM leaderboard
+	ORDER BY rank`
 
 	GetLeaderboardWithCountry = `
-	SELECT *
+	SELECT 
+		rank,
+		points,
+		name as display_name,
+		country
 	FROM leaderboard
-	WHERE COUNTRY = $1`
+	WHERE country = $1
+	ORDER BY rank`
 
 	InsertScore = `
 	INSERT INTO scores
@@ -54,7 +64,11 @@ var (
 	VALUES ($1, $2, $3)`
 
 	GetUser = `
-	SELECT * 
+	SELECT 
+		user_id,
+		name as display_name,
+		points,
+		rank
 	FROM leaderboard
-	WHERE user_id=$1`
+	WHERE user_id = $1`
 )

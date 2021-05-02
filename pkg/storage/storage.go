@@ -39,6 +39,11 @@ func NewStorage(ctx context.Context) *Storage {
 	}
 }
 
+// Conn exposes the underlying connection for health checking purposes.
+func (s *Storage) Conn() *pgxpool.Pool {
+	return s.connection
+}
+
 // Create the tables on startup, this function intented to run only on startup.
 func (s *Storage) createTables(ctx context.Context) {
 	for _, query := range []string{

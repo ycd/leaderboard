@@ -17,12 +17,13 @@ func (s *Storage) GetLeaderboard() (interface{}, error) {
 
 	var data []interface{}
 	for rows.Next() {
-		v, err := rows.Values()
+		var lr LeaderboardResult
+		err := rows.Scan(&lr.Rank, &lr.Points, &lr.DisplayName, &lr.Country)
 		if err != nil {
 			log.Println("Got error:", err)
 		}
 
-		data = append(data, v)
+		data = append(data, lr)
 	}
 
 	return data, nil
@@ -34,49 +35,45 @@ func (s *Storage) GetLeaderboardWithCountry(country string) (interface{}, error)
 	if err != nil {
 		return nil, err
 	}
-
+	log.Println("country is: ", country)
 	var data []interface{}
 	for rows.Next() {
-		v, err := rows.Values()
+		var lr LeaderboardResult
+		err := rows.Scan(&lr.Rank, &lr.Points, &lr.DisplayName, &lr.Country)
 		if err != nil {
 			log.Println("Got error:", err)
 		}
 
-		data = append(data, v)
+		data = append(data, lr)
 	}
 
 	return data, nil
 }
 
 // ScoreSubmit inserts a new score record to the database.
-func (s *Storage) ScoreSubmit(ScoreWorth float32, UserID string, Timestamp int64) (interface{}, error) {
-	rows, err := s.connection.Query(context.Background(), queries.InsertScore, UserID, ScoreWorth, Timestamp)
+func (s *Storage) ScoreSubmit(ScoreWorth float64, UserID string, Timestamp int64) (interface{}, error) {
+	_, err := s.connection.Exec(context.Background(), queries.InsertScore, UserID, ScoreWorth, Timestamp)
 	if err != nil {
 		return nil, err
 	}
 
-	var data []interface{}
-	for rows.Next() {
-		v, err := rows.Values()
-		if err != nil {
-			log.Println("Got error:", err)
-		}
-
-		data = append(data, v)
-	}
-
-	return data, nil
+	return Score{
+		ScoreWorth: ScoreWorth,
+		UserID:     UserID,
+		Timestamp:  Timestamp,
+	}, nil
 }
 
 // UserCreate creates a new user.
 func (s *Storage) UserCreate(userID, userName, country string) (interface{}, error) {
-	_, err := s.connection.Query(context.Background(), queries.NewUser, userID, userName, country)
+	_, err := s.connection.Exec(context.Background(), queries.NewUser, userID, userName, country)
 	if err != nil {
 		return nil, fmt.Errorf("user with name: %s already exists", userName)
 	}
 
 	user, err := s.GetUser(userID)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
@@ -86,13 +83,10 @@ func (s *Storage) UserCreate(userID, userName, country string) (interface{}, err
 func (s *Storage) GetUser(userID string) (interface{}, error) {
 	var u UserInfo
 
-	row := s.connection.QueryRow(context.Background(), queries.GetUser, userID)
-	err := row.Scan(&u.UserID, &u.DisplayName, &u.Country, &u.Points, &u.Rank)
-	// if err != nil {
-	// 	if err, ok := err.(*pgx.Errro)
-	// }
-
-	log.Println(err.Error())
+	err := s.connection.QueryRow(context.Background(), queries.GetUser, userID).Scan(&u.UserID, &u.DisplayName, &u.Points, &u.Rank)
+	if err != nil {
+		return nil, err
+	}
 
 	return u, nil
 }
