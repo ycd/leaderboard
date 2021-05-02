@@ -1,0 +1,42 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: leaderboard-api
+spec:
+  replicas: 2
+  selector: 
+    matchLabels: 
+      app: leaderboard-api
+  template:
+    metadata:
+      labels:
+        app:  leaderboard-api
+    spec:
+      containers:
+      - name: leaderboard-api
+        image: eu.gcr.io/leaderboard-312410/leaderboard:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        env:
+        - name: POSTGRES_USERNAME
+          value: "postgres"  
+        - name: POSTGRES_DB
+          value: "postgres"
+        - name: POSTGRES_IP
+          value: "postgres:5432"  
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: default
+              key: pg-password      
+
+
+    

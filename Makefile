@@ -18,3 +18,8 @@ insert-mock-data:
 
 clean: 
 	docker-compose down
+
+push-image: 
+	docker build . -t leaderboard
+	docker tag leaderboard:latest eu.gcr.io/leaderboard-312410/leaderboard:latest
+	docker push eu.gcr.io/leaderboard-312410/leaderboard:latest

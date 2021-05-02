@@ -26,10 +26,9 @@ func init() {
 func NewStorage(ctx context.Context) *Storage {
 	postgresPassword := os.Getenv("POSTGRES_PASSWORD")
 	postgresUsername := os.Getenv("POSTGRES_USERNAME")
-	postgresDBName := os.Getenv("POSTGRES_DB")
 	postgresIPAddr := os.Getenv("POSTGRES_IP")
 
-	conn, err := pgxpool.Connect(ctx, fmt.Sprintf("postgres://%s:%s@%s/%s", postgresUsername, postgresPassword, postgresIPAddr, postgresDBName))
+	conn, err := pgxpool.Connect(ctx, fmt.Sprintf("postgres://%s:%s@%s/postgres", postgresUsername, postgresPassword, postgresIPAddr))
 	if err != nil {
 		log.Fatalf("ERROR: unable to connect PSQL: %v", err)
 	}

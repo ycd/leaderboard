@@ -2,9 +2,32 @@
 # Getting Started
 
 
+# Development
+
+## Running locally
+
+### Prerequisites
+
+1. GNU Make >=3.5
+1. Docker Engine >= 20
+1. Docker Compose
+
+#### Build image
+
+```bash
+make build
+```
+
+#### Run locally 
+
+```bash
+make run-dev
+```
+
+
 # Deployment
 
-## Provision a new Kubernetes Cluster with Terraform 
+## Provisioning a new Kubernetes Cluster with Terraform 
 
 1. Download [Terraform](https://www.terraform.io/downloads.html)
 1. Initialize terraform with `terraform init`
@@ -17,6 +40,7 @@ gcloud container clusters get-credentials $( echo var.name | terraform console )
     --zone $( echo var.location | terraform console )   \
     --project $( echo var.project | terraform console )
 ``` 
+
 
 6. After a few minutes of provisioning your cluster must be ready, test it with `kubectl cluster-info`.
 
@@ -42,7 +66,17 @@ kubectl apply -f psql-service.yaml
 
 ## Deploying the services
 
-TODO
+1. Create Deployment for API service.
+
+```bash
+kubectl apply -f api-deployment.yaml
+```
+
+2. Apply and expose the API service through a load balancer.
+
+```bash
+kubectl apply -f api-service.yaml
+```
 
 # API Reference
 

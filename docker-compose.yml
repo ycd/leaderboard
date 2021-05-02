@@ -12,7 +12,6 @@ services:
     environment: 
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=leaderboard
       - POSTGRES_IP=postgres:5432
   
   postgres:
@@ -21,6 +20,6 @@ services:
     environment: 
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=leaderboard
+      - POSTGRES_DB=postgres
     ports:
       - "5432:5432"
