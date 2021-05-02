@@ -4,12 +4,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func ModifyPaths(f *fiber.App) {
-	f.Get("/health", HandleHealthCheck)
+func (h *Handler) ModifyPaths(f *fiber.App) {
+	f.Get("/health", h.HandleHealthCheck)
 
-	f.Get("/leaderboard", HandleLeaderboard)
-	f.Get("/leaderboard/:country", HandleLeaderboardWithcountry)
-	f.Get("/user/profile/:guid", HandleGetUser)
-	f.Post("/user/create", HandleUserCreate)
-	f.Post("/score/submit", HandleScoreSubmit)
+	f.Get("/leaderboard", h.HandleLeaderboard)
+	f.Get("/leaderboard/:country", h.HandleLeaderboardWithcountry)
+	f.Get("/user/profile/:guid", h.HandleGetUser)
+	f.Post("/user/create", h.HandleUserCreate)
+	f.Post("/score/submit", h.HandleScoreSubmit)
 }

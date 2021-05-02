@@ -33,7 +33,7 @@ var (
 	CREATE VIEW leaderboard AS
 	SELECT 
 		*,
-		RANK() OVER (ORDER BY points desc) as rank 
+		DENSE_RANK() OVER (ORDER BY points desc) as rank 
 	FROM UsersWithScores`
 
 	GetLeaderboard = `

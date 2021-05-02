@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -11,7 +12,9 @@ import (
 
 func main() {
 	app := fiber.New()
-	handlers.ModifyPaths(app)
+
+	h := handlers.NewHandler(context.Background())
+	h.ModifyPaths(app)
 
 	port := os.Getenv("PORT")
 	log.Fatal(app.Listen(fmt.Sprintf(":%s", port)))
