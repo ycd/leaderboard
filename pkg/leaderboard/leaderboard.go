@@ -2,7 +2,9 @@ package leaderboard
 
 import (
 	"context"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/ycd/leaderboard/pkg/storage"
 )
 
@@ -35,7 +37,16 @@ func (l *Leaderboard) GetLeaderboardWithCountry(country string) (interface{}, er
 }
 
 func (l *Leaderboard) ScoreSubmit(body *ScoreSubmit) (interface{}, error) {
-	data, err := l.storage.ScoreSubmit(body.ScoreWorth, body.UserID, body.Timestamp)
+	data, err := l.storage.ScoreSubmit(body.ScoreWorth, body.UserID, time.Now().Unix())
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
+func (l *Leaderboard) UserCreate(body *UserCreate) (interface{}, error) {
+	data, err := l.storage.UserCreate(uuid.NewString(), body.UserName, body.Country)
 	if err != nil {
 		return nil, err
 	}

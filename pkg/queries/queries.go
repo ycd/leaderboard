@@ -6,30 +6,35 @@ var (
 		user_id VARCHAR(40) NOT NULL,
 		point SMALLINT,
 		timestamp INTEGER NOT NULL
-	)
-	`
+	)`
 
 	CreateUserTable = `
 	CREATE TABLE IF NOT EXISTS users (
-		id VARCHAR(40) UNIQUE NOT NULL,
+		user_id VARCHAR(40) UNIQUE NOT NULL,
 		name VARCHAR(40) UNIQUE NOT NULL,
-		created_at INTEGER,
 		country VARCHAR(10)
-	)
-	`
+	)`
 
 	CreateUserWithScoresView = `
 	CREATE VIEW UsersWithScores AS
-	SELECT *, (SELECT SUM(point) as point FROM scores s WHERE u.id=s.user_id ) as point FROM users u
+	SELECT 
+		u.user_id,
+		u.name,
+		u.country,
+		(
+			SELECT SUM(s.point)
+			FROM scores s
+			WHERE u.user_id=s.user_id
+		) AS point
+	FROM users u
 	`
 
 	CreateLeaderboardTable = `
-	CREATE MATERIALIZED VIEW leaderboard AS
+	CREATE VIEW leaderboard AS
 	SELECT 
 		*,
 		RANK() OVER (ORDER BY point desc) as rank 
-	FROM UsersWithScores
-	`
+	FROM UsersWithScores`
 
 	GetLeaderboard = `
 	SELECT *
@@ -42,9 +47,14 @@ var (
 
 	InsertScore = `
 	INSERT INTO scores
-	VALUES ($1, $2, $3)
-	`
+	VALUES ($1, $2, $3)`
 
-	// TODO
+	NewUser = `
+	INSERT INTO users
+	VALUES ($1, $2, $3)`
 
+	GetUser = `
+	SELECT * 
+	FROM leaderboard
+	WHERE user_id=$1`
 )

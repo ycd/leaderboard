@@ -61,3 +61,29 @@ func HandleScoreSubmit(c *fiber.Ctx) error {
 		Data:    data,
 	})
 }
+
+// HandleUserCreate handles the logic for user creation
+//
+// On success returns HTTP 201 - Created
+// On failure - or payload with duplicate name returns HTTP 409 - Conflict
+func HandleUserCreate(c *fiber.Ctx) error {
+	b := new(leaderboard.UserCreate)
+	if err := c.BodyParser(b); err != nil {
+		return err
+	}
+
+	data, err := leaderboard.NewLeaderboard(c.Context()).UserCreate(b)
+	if err != nil {
+		return c.Status(409).JSON(Response{
+			Err:     err.Error(),
+			Success: false,
+			Data:    nil,
+		})
+	}
+
+	return c.Status(201).JSON(Response{
+		Err:     "",
+		Success: true,
+		Data:    data,
+	})
+}
