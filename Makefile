@@ -4,9 +4,12 @@ run-dev:
 	docker build . -t leaderboard
 	docker-compose up
 
-test-db: 
-	docker build . -t leaderboard
+run-test-env: 
+	docker-compose -f dc.test.yml down
 	docker-compose -f dc.test.yml up 
+
+run-tests:
+	REDIS_IP=localhost:6379 POSTGRES_USERNAME=postgres POSTGRES_PASSWORD=postgres POSTGRES_IP=localhost:5432 go test -p 1 ./... -coverprofile /dev/null
 
 build:
 	docker build . -t leaderboard
