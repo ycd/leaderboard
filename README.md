@@ -120,22 +120,22 @@ make insert-mock-data BASE_URL=http://HOST:PORT
 
 ```json
 {
-    "data": [
-        {
-            "rank": 1,
-            "points": 99,
-            "display_name": "test_451",
-            "country": "ug"
-        },
-        {
-            "rank": 2,
-            "points": 98,
-            "display_name": "test_376",
-            "country": "fr"
-        }
-    ],
-    "error": null,
-    "success": true
+  "data": [
+    {
+      "rank": 1,
+      "points": 99,
+      "display_name": "test_451",
+      "country": "ug"
+    },
+    {
+      "rank": 2,
+      "points": 98,
+      "display_name": "test_376",
+      "country": "fr"
+    }
+  ],
+  "error": null,
+  "success": true
 }
 ```
 
@@ -154,22 +154,22 @@ make insert-mock-data BASE_URL=http://HOST:PORT
 
 ```json
 {
-    "data": [
-        {
-            "rank": 1,
-            "points": 99,
-            "display_name": "test_443",
-            "country": "fr"
-        },
-        {
-            "rank": 2,
-            "points": 98,
-            "display_name": "test_376",
-            "country": "fr"
-        }
-    ],
-    "error": null,
-    "success": true
+  "data": [
+    {
+      "rank": 1,
+      "points": 99,
+      "display_name": "test_443",
+      "country": "fr"
+    },
+    {
+      "rank": 2,
+      "points": 98,
+      "display_name": "test_376",
+      "country": "fr"
+    }
+  ],
+  "error": null,
+  "success": true
 }
 ```
 
@@ -183,8 +183,8 @@ make insert-mock-data BASE_URL=http://HOST:PORT
 
 ```json
 {
-	"score_worth": 1234.6,
-	"user_id": "f1607032-aaf3-41df-9d61-84d06b97a322"
+  "score_worth": 1234.6,
+  "user_id": "f1607032-aaf3-41df-9d61-84d06b97a322"
 }
 ```
 
@@ -192,13 +192,13 @@ make insert-mock-data BASE_URL=http://HOST:PORT
 
 ```json
 {
-    "data": {
-        "score_worth": 1234.6,
-        "user_id": "f1607032-aaf3-41df-9d61-84d06b97a322",
-        "timestamp": 1619972382
-    },
-    "error": "",
-    "success": true
+  "data": {
+    "score_worth": 1234.6,
+    "user_id": "f1607032-aaf3-41df-9d61-84d06b97a322",
+    "timestamp": 1619972382
+  },
+  "error": "",
+  "success": true
 }
 ```
 
@@ -213,8 +213,8 @@ make insert-mock-data BASE_URL=http://HOST:PORT
 
 ```json
 {
-	"display_name": "ycd_123",
-	"country": "us"
+  "display_name": "ycd_123",
+  "country": "us"
 }
 ```
 
@@ -222,14 +222,14 @@ make insert-mock-data BASE_URL=http://HOST:PORT
 
 ```json
 {
-    "data": {
-        "user_id": "0db88bec-6b99-4972-b72e-c35c9ee38cf9",
-        "display_name": "ycd_123",
-        "points": 0,
-        "rank": 100
-    },
-    "error": "",
-    "success": true
+  "data": {
+    "user_id": "0db88bec-6b99-4972-b72e-c35c9ee38cf9",
+    "display_name": "ycd_123",
+    "points": 0,
+    "rank": 100
+  },
+  "error": "",
+  "success": true
 }
 ```
 
@@ -248,13 +248,13 @@ make insert-mock-data BASE_URL=http://HOST:PORT
 
 ```json
 {
-    "data": {
-        "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d1",
-        "display_name": "yaguasdf",
-        "points": 0,
-        "rank": 100
-    },
-    "error": "",
-    "success": true
+  "data": {
+    "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d1",
+    "display_name": "yaguasdf",
+    "points": 0,
+    "rank": 100
+  },
+  "error": "",
+  "success": true
 }
 ```
