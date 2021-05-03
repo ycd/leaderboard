@@ -21,7 +21,7 @@ type Storage struct {
 func init() {
 	ctx := context.Background()
 	storage := NewStorage(ctx)
-	storage.createTables(ctx)
+	storage.CreateTables(ctx)
 }
 
 // NewStorage creates a new Storage
@@ -53,8 +53,12 @@ func (s *Storage) Conn() *pgxpool.Pool {
 	return s.connection
 }
 
+func (s *Storage) Cache() *redis.Client {
+	return s.cache
+}
+
 // Create the tables on startup, this function intented to run only on startup.
-func (s *Storage) createTables(ctx context.Context) {
+func (s *Storage) CreateTables(ctx context.Context) {
 	for _, query := range []string{
 		queries.CreateScoresTable,
 		queries.CreateUserTable,

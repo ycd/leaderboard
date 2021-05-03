@@ -100,6 +100,14 @@ func (h *Handler) HandleUserCreate(c *fiber.Ctx) error {
 		return err
 	}
 
+	if len(b.UserName) < 3 || len(b.Country) != 2 {
+		return c.Status(422).JSON(Response{
+			Err:     "Length of UserID's should be bigger than 2, country code must be in ISO 639-1 standard",
+			Success: false,
+			Data:    nil,
+		})
+	}
+
 	data, err := h.leaderboard.UserCreate(b)
 	if err != nil {
 		return c.Status(409).JSON(Response{

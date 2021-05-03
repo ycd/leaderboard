@@ -47,13 +47,14 @@ var (
 
 	GetLeaderboardWithCountry = `
 	SELECT 
-		rank,
+		DENSE_RANK() OVER (ORDER BY points desc) as rank,
 		points,
 		name as display_name,
 		country
-	FROM leaderboard
+	FROM UsersWithScores
 	WHERE country = $1
-	ORDER BY rank`
+	ORDER BY rank
+	`
 
 	InsertScore = `
 	INSERT INTO scores
