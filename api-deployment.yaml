@@ -26,17 +26,16 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         env:
-        - name: POSTGRES_USERNAME
-          value: "postgres"  
-        - name: POSTGRES_DB
-          value: "postgres"
-        - name: POSTGRES_IP
-          value: "postgres:5432"  
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: default
-              key: pg-password      
-
-
-    
+          - name: REDIS_IP
+            value: "redis:6379"
+          - name: POSTGRES_USERNAME
+            value: "postgres"  
+          - name: POSTGRES_DB
+            value: "postgres"
+          - name: POSTGRES_IP
+            value: "postgres:5432"  
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: default
+                key: pg-password      
