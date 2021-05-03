@@ -17,6 +17,13 @@ spec:
       - name: leaderboard-api
         image: eu.gcr.io/leaderboard-312410/leaderboard:latest
         imagePullPolicy: Always
+        resources:
+          limits:
+             cpu: "4"
+             memory: "6Gi"
+          requests:
+             cpu: "2"
+             memory: "3Gi"
         ports:
         - containerPort: 8000
         livenessProbe:
