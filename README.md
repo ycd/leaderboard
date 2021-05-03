@@ -24,6 +24,19 @@ make build
 make run-dev
 ```
 
+#### Testing
+
+1. Create a temporary test database
+
+```bash
+make test-db
+```
+
+2. Run tests
+
+```bash
+go test ./...
+```
 
 # Deployment
 
@@ -77,6 +90,15 @@ kubectl apply -f api-deployment.yaml
 ```bash
 kubectl apply -f api-service.yaml
 ```
+
+
+### Creating mock data
+
+You can create mock data for testing with the following command.
+
+```bash
+make insert-mock-data BASE_URL=http://HOST:PORT
+``` 
 
 # API Reference
 

@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -10,12 +11,18 @@ import (
 
 // GetLeaderboard returns the results from leaderboard table.
 func (s *Storage) GetLeaderboard() (interface{}, error) {
+	ctx := context.Background()
+	cachedData, err := s.CacheGet(ctx, "leaderboard")
+	if err == nil {
+		return cachedData, nil
+	}
+
+	var data []interface{}
+
 	rows, err := s.connection.Query(context.Background(), queries.GetLeaderboard)
 	if err != nil {
 		return nil, err
 	}
-
-	var data []interface{}
 	for rows.Next() {
 		var lr LeaderboardResult
 		err := rows.Scan(&lr.Rank, &lr.Points, &lr.DisplayName, &lr.Country)
@@ -24,6 +31,15 @@ func (s *Storage) GetLeaderboard() (interface{}, error) {
 		}
 
 		data = append(data, lr)
+	}
+
+	json, err := json.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := s.CacheSet(ctx, "leaderboard", json); err != nil {
+		return nil, err
 	}
 
 	return data, nil
