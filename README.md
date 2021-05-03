@@ -1,5 +1,15 @@
 
+
+
 # Getting Started
+
+# Achitecture
+
+<div align="center">
+
+<img src="assets/architecture.png" width=700 height=400>
+
+</div>
 
 
 # Development
