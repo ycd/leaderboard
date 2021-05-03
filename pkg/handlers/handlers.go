@@ -32,6 +32,7 @@ func (h *Handler) HandleHealthCheck(c *fiber.Ctx) error {
 	return c.Status(200).Send([]byte("ok"))
 }
 
+// HandleLeaderboard retrieves the global leaderboard.
 func (h *Handler) HandleLeaderboard(c *fiber.Ctx) error {
 	data, err := h.leaderboard.GetLeaderboard()
 	if err != nil {
@@ -48,6 +49,7 @@ func (h *Handler) HandleLeaderboard(c *fiber.Ctx) error {
 	})
 }
 
+// HandleLeaderboardWithcountry retrieves the leaderboard of the given country.
 func (h *Handler) HandleLeaderboardWithcountry(c *fiber.Ctx) error {
 	country := c.Params("country")
 
@@ -66,6 +68,7 @@ func (h *Handler) HandleLeaderboardWithcountry(c *fiber.Ctx) error {
 	})
 }
 
+// HandleScoreSubmit submits a new score record to the database.
 func (h *Handler) HandleScoreSubmit(c *fiber.Ctx) error {
 	b := new(leaderboard.ScoreSubmit)
 	if err := c.BodyParser(b); err != nil {
@@ -112,6 +115,7 @@ func (h *Handler) HandleUserCreate(c *fiber.Ctx) error {
 	})
 }
 
+// HandleGetUser retrieves the information of the user with given ID.
 func (h *Handler) HandleGetUser(c *fiber.Ctx) error {
 	guid := c.Params("guid")
 

@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// ModifyPaths registers the handlers to the main app.
 func (h *Handler) ModifyPaths(f *fiber.App) {
 	f.Get("/health", h.HandleHealthCheck)
 
