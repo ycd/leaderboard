@@ -26,16 +26,22 @@ make run-dev
 
 #### Testing
 
-1. Create a temporary test database
+1. Start the test environment with the following command which will provision the required components for your application.
 
 ```bash
-make test-db
+make run-test-env
 ```
 
-2. Run tests
+2. Run the tests
 
 ```bash
-go test ./...
+make run-tests
+```
+
+#### Pushing image to container registry
+
+```bash
+make push-image
 ```
 
 # Deployment
