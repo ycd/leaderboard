@@ -4,11 +4,9 @@ run-dev:
 	docker build . -t leaderboard
 	docker-compose up
 
-test: 
+test-db: 
 	docker build . -t leaderboard
-	docker-compose up 
-	go test ./...
-	docker-compose down
+	docker-compose -f dc.test.yml up 
 
 build:
 	docker build . -t leaderboard
