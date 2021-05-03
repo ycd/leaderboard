@@ -22,5 +22,5 @@ variable "initial_node_count" {
 variable "machine_type" {
   type = string 
   # 4vCPU - 16GB Memory
-  default = "e2-standard-4"
+  default = "e2-standard-8"
 }
