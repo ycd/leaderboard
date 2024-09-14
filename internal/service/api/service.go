@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/ycd/leaderboard/internal/service/api/handlers"
 )
 
@@ -45,6 +46,10 @@ func (s *Server) Serve() error {
 
 	s.server = app
 	s.RegisterHandlers()
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+	}))
 
 	if err := s.server.Listen(s.Addr); err != nil {
 		if err != http.ErrServerClosed {
