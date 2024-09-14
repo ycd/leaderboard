@@ -55,7 +55,7 @@ func (r *UserRepository) GetUserByUsername(username string) (*models.User, error
 	}
 	if err != nil {
 		log.Printf("Error retrieving user by username: %v", err)
-		return nil, err
+		return nil, errors.NewError(errors.ErrUserNotFound, "user not found")
 	}
 	log.Printf("User retrieved with username: %s", username)
 	return &user, nil
@@ -68,6 +68,16 @@ func (r *UserRepository) SetUserLevel(userID string, level int) error {
 		log.Printf("Error setting user level for userID %s: %v", userID, err)
 	}
 	log.Printf("User level set to %d for userID %s", level, userID)
+	return err
+}
+
+func (r *UserRepository) UpdateUserProfile(user *models.User) error {
+	query := `UPDATE users SET level = ?, coin = ? WHERE id = ?`
+	_, err := r.db.Exec(query, user.Level, user.Coin, user.ID)
+	if err != nil {
+		log.Printf("Error updating user profile for userID %s: %v", user.ID, err)
+	}
+	log.Printf("User profile updated for userID %s", user.ID)
 	return err
 }
 

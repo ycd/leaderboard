@@ -1,6 +1,7 @@
 package errors
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -34,6 +35,7 @@ const (
 type Error struct {
 	Type    ErrorType
 	Message string
+	err     error
 }
 
 func (e Error) Error() string {
@@ -46,11 +48,23 @@ func (e Error) Error() string {
 func (e Error) Is(target error) bool {
 	t, ok := target.(Error)
 	if !ok {
-		return false
+		return errors.Is(e.err, target)
 	}
 	return e.Type == t.Type
 }
 
+func (e Error) Unwrap() error {
+	return e.err
+}
+
 func NewError(errType ErrorType, message string) Error {
-	return Error{Type: errType, Message: message}
+	return Error{Type: errType, Message: message, err: errors.New(string(errType))}
+}
+
+func IsErrorType(err error, errType ErrorType) bool {
+	var e Error
+	if errors.As(err, &e) {
+		return e.Type == errType
+	}
+	return false
 }

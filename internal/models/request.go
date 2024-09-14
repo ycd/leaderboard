@@ -4,6 +4,8 @@ package models
 type SetProfileRequest struct {
 	Username string `json:"username"`
 	Country  string `json:"country"`
+	Level    int    `json:"level"`
+	Coin     int    `json:"coin"`
 }
 
 // SetLevelRequest represents the request body for setting a user's level

@@ -27,20 +27,21 @@ func (h *UserHandler) SetProfile(c *fiber.Ctx) error {
 	user := &models.User{
 		Username: req.Username,
 		Country:  req.Country,
+		Level:    int32(req.Level),
+		Coin:     int32(req.Coin),
 	}
-	log.Println("user", user)
 
-	err := h.userService.SetProfile(user)
+	usr, err := h.userService.SetProfile(user)
 	if err != nil {
 		return handleError(c, err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(models.UserProfileResponse{
-		ID:       user.ID,
-		Username: user.Username,
-		Country:  user.Country,
-		Level:    int(user.Level),
-		Coin:     int(user.Coin),
+		ID:       usr.ID,
+		Username: usr.Username,
+		Country:  usr.Country,
+		Level:    int(usr.Level),
+		Coin:     int(usr.Coin),
 	})
 }
 
