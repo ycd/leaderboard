@@ -142,7 +142,7 @@ func createTestUser(t *testing.T, userService *user.UserService, username, count
 		Country:  country,
 	}
 
-	err := userService.SetProfile(user)
+	_, err := userService.SetProfile(user)
 	assert.NoError(t, err)
 
 	return user

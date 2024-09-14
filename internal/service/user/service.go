@@ -75,9 +75,18 @@ func (s *UserService) SetLevel(userID string, level int) error {
 	if level < 0 {
 		return errors.NewError(errors.ErrInvalidLevel, "Level must be non-negative")
 	}
+	if userID == "" {
+		return errors.NewError(errors.ErrInvalidRequest, "User ID is required")
+	}
 	return s.userRepo.SetUserLevel(userID, level)
 }
 
 func (s *UserService) SetCoin(userID string, coin int) error {
+	if coin < 0 {
+		return errors.NewError(errors.ErrInvalidCoin, "Coin must be non-negative")
+	}
+	if userID == "" {
+		return errors.NewError(errors.ErrInvalidRequest, "User ID is required")
+	}
 	return s.userRepo.SetUserCoin(userID, coin)
 }

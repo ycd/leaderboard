@@ -37,7 +37,7 @@ func TestUserOperations(t *testing.T) {
 			Username: "testuser-234",
 			Country:  "US",
 		}
-		err := userService.SetProfile(user)
+		_, err := userService.SetProfile(user)
 		assert.NoError(t, err)
 		assert.NotEmpty(t, user.ID)
 		assert.Equal(t, 0, user.Coin)
