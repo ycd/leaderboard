@@ -274,6 +274,9 @@ func (r *EventRepository) GetEventByID(ctx context.Context, eventID string) (mod
 
 	var event models.Event
 	err := r.chDB.QueryRowContext(ctx, query, eventID).Scan(&event.ID, &event.Name, &event.StartTime, &event.EndTime)
+	if err == sql.ErrNoRows {
+		return event, errors.NewError(errors.ErrEventNotFound, "Event not found")
+	}
 	if err != nil {
 		return event, err
 	}

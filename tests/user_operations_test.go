@@ -22,7 +22,13 @@ func init() {
 }
 
 func TestUserOperations(t *testing.T) {
-	userRepo := repository.NewUserRepository(db)
+	sqliteDB, err := storage.NewSQLiteConnection()
+	if err != nil {
+		t.Fatalf("Failed to connect to SQLite: %v", err)
+	}
+	defer sqliteDB.Close()
+
+	userRepo := repository.NewUserRepository(sqliteDB)
 	userService := user.NewUserService(userRepo)
 
 	testUser := createTestUser(t, userService, "testuser-123", "US", 0)

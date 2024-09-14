@@ -1,7 +1,6 @@
 package queries
 
 const (
-	// Updated CreateEventParticipantTable to use SummingMergeTree for aggregation
 	CreateEventParticipantTable = `
     CREATE TABLE IF NOT EXISTS event_participants (
         event_id String,
@@ -41,7 +40,6 @@ const (
 )
 
 const (
-	// Materialized View for Overall Leaderboard
 	CreateEventLeaderboardMV = `
     CREATE MATERIALIZED VIEW IF NOT EXISTS event_leaderboard_mv
     ENGINE = MergeTree()
@@ -107,30 +105,3 @@ const (
 	DROP TABLE IF EXISTS rewards;
 	`
 )
-
-// New queries for event.go:
-
-// Query to get the overall leaderboard:
-/*
-SELECT
-	user_id,
-	total_score,
-	RANK() OVER (ORDER BY total_score DESC) AS rank
-FROM event_leaderboard_mv
-WHERE event_id = ?
-ORDER BY total_score DESC
-LIMIT ?;
-*/
-
-// Query to get the country leaderboard:
-/*
-SELECT
-	user_id,
-	country,
-	total_score,
-	RANK() OVER (ORDER BY total_score DESC) AS rank
-FROM event_country_leaderboard_mv
-WHERE event_id = ? AND country = ?
-ORDER BY total_score DESC
-LIMIT ?;
-*/
