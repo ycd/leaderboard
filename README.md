@@ -125,13 +125,20 @@ The API is available on: http://api.leaderboard.yagizdegirmenci.com
 
 #### Using Docker
 
-1. Spin up the compose file:
+1. Run the local development stack with:
 
    ```bash
-   docker compose up --build
+   docker compose -f docker-compose.dev.yml up --build
    ```
+2. Stop the services
 
-Now, the API is available on http://api.leaderboard.yagizdegirmenci.com on your host machine.
+
+  ```bash
+  docker compose -f docker-compose.dev.yml down
+  ```
+
+
+Now, the API is available on http://0.0.0.0:80 on your host machine.
 
 
 
@@ -190,7 +197,7 @@ Now, the API is available on http://api.leaderboard.yagizdegirmenci.com on your 
    ```bash
    docker compose up --build
    ```
-3. The API will be available on http://<your-ec2-instance-public-ip>:8080
+3. The API will be available on http://<your-ec2-instance-public-ip>:80
 
 ## API Documentation
 

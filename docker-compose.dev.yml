@@ -1,0 +1,127 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:8080"
+    ports:
+      - "8080:8080"
+      - "8081:8081" # Traefik Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - backend
+
+  leaderboard-api-1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: leaderboard-api:latest
+    container_name: leaderboard-api-1
+    environment:
+      CLICKHOUSE_ADDR: "clickhouse:9000"
+      CLICKHOUSE_DB: "default"
+      CLICKHOUSE_USER: "default"
+      CLICKHOUSE_PASSWORD: "clickhouse_password"
+      REFRESH: "true"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: "8fh21f289j2ıfhjıvs844"
+      PORT: "8081"
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+    depends_on:
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    restart: on-failure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api1.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.api1.entrypoints=web"
+      - "traefik.http.services.api1.loadbalancer.server.port=8081"
+
+  leaderboard-api-2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: leaderboard-api:latest
+    container_name: leaderboard-api-2
+    environment:
+      CLICKHOUSE_ADDR: "clickhouse:9000"
+      CLICKHOUSE_DB: "default"
+      CLICKHOUSE_USER: "default"
+      CLICKHOUSE_PASSWORD: "clickhouse_password"
+      REFRESH: "true"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: "8fh21f289j2ıfhjıvs844"
+      PORT: "8082"
+    ports:
+      - "8082:8082"
+    networks:
+      - backend
+    depends_on:
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    restart: on-failure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api2.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.api2.entrypoints=web"
+      - "traefik.http.services.api2.loadbalancer.server.port=8082"
+
+  redis:
+    image: redis:7.0-alpine
+    container_name: redis
+    command: [ "redis-server", "--requirepass", "8fh21f289j2ıfhjıvs844" ]
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "8fh21f289j2ıfhjıvs844", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: clickhouse
+    environment:
+      CLICKHOUSE_DB: "default"
+      CLICKHOUSE_USER: "default"
+      CLICKHOUSE_PASSWORD: "clickhouse_password"
+    ports:
+      - "9000:9000"
+      - "8123:8123"
+    networks:
+      - backend
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+    healthcheck:
+      test: [ "CMD", "clickhouse-client", "--password", "clickhouse_password", "--query", "SELECT 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local
+  clickhouse-data:
+    driver: local
