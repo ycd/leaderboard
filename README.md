@@ -122,6 +122,22 @@ The API is available on: http://leaderboard.yagizdegirmenci.com:8080
 
 ## Running locally
 
+### Build and Run
+
+#### Using Docker
+
+1. Spin up the compose file:
+
+   ```bash
+   docker compose up --build
+   ```
+
+Now, the API is available on http://localhost:8080 on your host machine.
+
+
+
+#### Without Docker
+
 ## Prerequisites
 
 - [Go 1.22.6 or later](https://golang.org/dl/)
@@ -155,21 +171,6 @@ The API is available on: http://leaderboard.yagizdegirmenci.com:8080
    go mod download
    ```
 
-### Build and Run
-
-#### Using Docker
-
-1. Build the Docker image:
-   ```bash
-   docker build -t leaderboard-api .
-   ```
-
-2. Run the containers:
-   ```bash
-   docker-compose up -d
-   ```
-
-#### Without Docker
 
 1. Install dependencies:
    ```bash
@@ -179,13 +180,6 @@ The API is available on: http://leaderboard.yagizdegirmenci.com:8080
 2. Run the API:
    ```bash
    go run cmd/api/main.go
-   ```
-
-### Testing
-
-1. Run unit tests:
-   ```bash
-   go test ./...
    ```
 
 # Deployment
