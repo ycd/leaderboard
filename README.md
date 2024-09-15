@@ -2,6 +2,44 @@
 
 This project implements a REST API using Golang for managing user profiles, events, and leaderboards. It supports both group and country-based leaderboards, with specific rules for user participation and rewards.
 
+# Table of Contents
+
+- [Leaderboard API](#leaderboard-api)
+  - [Features](#features)
+- [Architecture](#architecture)
+- [Getting Started](#getting-started)
+  - [Deployed API](#deployed-api)
+  - [Prerequisites](#prerequisites)
+  - [Running locally](#running-locally)
+    - [Environment Setup](#environment-setup)
+    - [Build and Run](#build-and-run)
+      - [Using Docker](#using-docker)
+      - [Without Docker](#without-docker)
+    - [Testing](#testing)
+- [Deployment](#deployment)
+  - [Cloud Deployment (Example for AWS)](#cloud-deployment-example-for-aws)
+  - [Scaling Considerations](#scaling-considerations)
+- [API Documentation](#api-documentation)
+  - [User Operations](#user-operations)
+  - [Event Operations](#event-operations)
+  - [Admin Operations](#admin-operations)
+- [API Reference](#api-reference)
+  - [Endpoints](#endpoints)
+  - [Create User Profile](#create-user-profile)
+  - [Set User Level](#set-user-level)
+  - [Set User Coin](#set-user-coin)
+  - [Create Event](#create-event)
+  - [Join Event](#join-event)
+  - [Update Leaderboard Progress](#update-leaderboard-progress)
+  - [Get Leaderboard](#get-leaderboard)
+  - [Get Country Leaderboard](#get-country-leaderboard)
+  - [Claim Leaderboard Reward](#claim-leaderboard-reward)
+- [Errors](#errors)
+- [Load Testing](#load-testing)
+  - [Example Test](#example-test)
+  - [Test Results](#test-results)
+  - [Running the load test with Go](#running-the-load-test-with-go)
+
 
 ## Features
 
@@ -11,11 +49,6 @@ This project implements a REST API using Golang for managing user profiles, even
 - Leaderboard progress tracking
 - Reward claiming system
 - Admin operations for event and user management
-
-
-# Getting Started
-
-This section provides instructions on how to set up and run the Leaderboard API project locally, as well as how to deploy it.
 
 # Architecture
 
@@ -68,6 +101,22 @@ graph TD
     style I fill:#bfb,stroke:#333,stroke-width:2px
     style J fill:#fbb,stroke:#333,stroke-width:2px
 ```
+
+# Getting Started
+
+This section provides instructions on how to set up and run the Leaderboard API project locally, as well as how to deploy it.
+
+
+
+# Deployed API
+
+You can also use the deployed version of this project instead of spinning up from scratch.
+
+
+The API is available on: http://leaderboard.yagizdegirmenci.com:8080
+
+
+
 
 # Development
 
@@ -323,10 +372,10 @@ POST /admin/event
 
 #### Request
 ```
-curl --location 'http://localhost:8080/admin/event' \
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/admin/event' \
 --header 'Content-Type: application/json' \
 --data '{
-    "name": "3131",
+    "name": "alekhine",
     "start_time": "2023-09-01T00:00:00Z",
     "end_time": "2023-09-30T23:59:59Z"
 }'
@@ -358,7 +407,7 @@ POST /event/join
 
 #### Request
 ```
-curl --location 'http://localhost:8080/event/join' \
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/event/join' \
 --header 'Content-Type: application/json' \
 --data '{
     "event_id": "event-12345",
@@ -393,7 +442,7 @@ POST /event/leaderboard/progress
 #### Request
 
 ```
-curl --location 'http://localhost:8080/event/leaderboard/progress' \
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/event/leaderboard/progress' \
 --header 'Content-Type: application/json' \
 --data '{
     "event_id": "5af98d12-2fcd-47ed-90bc-e13b3cdf6315",
@@ -429,7 +478,7 @@ GET /leaderboard
 
 #### Request
 ```
-curl --location 'http://localhost:8080/leaderboard?event_id=event-12345&limit=10'
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/leaderboard?event_id=event-12345&limit=10'
 ```
 
 #### Response
@@ -471,7 +520,7 @@ GET /country/leaderboard
 #### Request
 
 ```
-curl --location 'http://localhost:8080/country/leaderboard?event_id=event-12345&country=US&limit=10'
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/country/leaderboard?event_id=event-12345&country=US&limit=10'
 ```
 
 #### Response
@@ -512,7 +561,7 @@ POST /claim/reward
 
 #### Request
 ```
-curl --location 'http://localhost:8080/claim/reward' \
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/claim/reward' \
 --header 'Content-Type: application/json' \
 --data '{
     "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d1",
@@ -583,7 +632,7 @@ An example tests with 1000 request with 200 concurrency.
 
 ### Example Test
 ```
-hey -n 1000 -c 200 http://localhost:8080/event/leaderboard\?event_id\=f8b14ae0-b8ce-406e-bb9e-d26c098db60b\&limit\=10
+hey -n 1000 -c 200 http://leaderboard.yagizdegirmenci.com:8080/event/leaderboard\?event_id\=f8b14ae0-b8ce-406e-bb9e-d26c098db60b\&limit\=10
 ```
 
 
