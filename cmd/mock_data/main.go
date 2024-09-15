@@ -109,12 +109,10 @@ func main() {
 
 			resp, err := sendRequest("POST", "/user/level", payload)
 			if err != nil {
-				log.Printf("Failed to update level: %v", err)
 				return
 			}
 
 			if resp.StatusCode != http.StatusOK {
-				log.Printf("Failed to update level: %v", resp.StatusCode)
 				return
 			}
 
@@ -192,12 +190,10 @@ func main() {
 
 				resp, err := sendRequest("POST", "/event/leaderboard/progress", payload)
 				if err != nil {
-					log.Printf("Failed to update leaderboard: %v", err)
 					return
 				}
 
 				if resp.StatusCode != http.StatusOK {
-					log.Printf("Failed to update leaderboard: %v", resp.StatusCode)
 					return
 				}
 
