@@ -63,7 +63,10 @@ func createUser() models.User {
 	}
 
 	var user models.User
-	json.NewDecoder(resp.Body).Decode(&user)
+	if err := json.NewDecoder(resp.Body).Decode(&user); err != nil {
+		log.Printf("Failed to decode user: %v", err)
+		return models.User{}
+	}
 	return user
 }
 
@@ -82,6 +85,10 @@ func main() {
 		go func() {
 			defer wg.Done()
 			user := createUser()
+			if user.ID == "" {
+				log.Printf("Failed to create user")
+				return
+			}
 			users = append(users, user)
 		}()
 	}
@@ -102,7 +109,13 @@ func main() {
 
 			resp, err := sendRequest("POST", "/user/level", payload)
 			if err != nil {
-				log.Printf("Failed to update leaderboard: %v", err)
+				log.Printf("Failed to update level: %v", err)
+				return
+			}
+
+			if resp.StatusCode != http.StatusOK {
+				log.Printf("Failed to update level: %v", resp.StatusCode)
+				return
 			}
 
 			defer resp.Body.Close()
@@ -137,6 +150,9 @@ func main() {
 	// Timing joining events
 	startTime = time.Now()
 	for _, user := range users {
+		if user.ID == "" {
+			continue
+		}
 		wg.Add(1)
 		go func(userID string) {
 			defer wg.Done()
@@ -148,6 +164,11 @@ func main() {
 			resp, err := sendRequest("POST", "/event/join", payload)
 			if err != nil {
 				log.Printf("Failed to update leaderboard: %v", err)
+				return
+			}
+			if resp.StatusCode != http.StatusOK {
+				log.Printf("Failed to join event: %v", resp.StatusCode)
+				return
 			}
 
 			defer resp.Body.Close()
@@ -173,6 +194,12 @@ func main() {
 				resp, err := sendRequest("POST", "/event/leaderboard/progress", payload)
 				if err != nil {
 					log.Printf("Failed to update leaderboard: %v", err)
+					return
+				}
+
+				if resp.StatusCode != http.StatusOK {
+					log.Printf("Failed to update leaderboard: %v", resp.StatusCode)
+					return
 				}
 
 				defer resp.Body.Close()
