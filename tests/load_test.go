@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/ycd/leaderboard/internal/models"
 )
 
 const (
@@ -18,19 +19,6 @@ const (
 	userCount   = 1000
 	updateCount = 20000
 )
-
-type User struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
-	Country  string `json:"country"`
-}
-
-type Event struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	StartTime time.Time `json:"start_time"`
-	EndTime   time.Time `json:"end_time"`
-}
 
 func TestLoad(t *testing.T) {
 	// Create users concurrently
@@ -52,10 +40,10 @@ func TestLoad(t *testing.T) {
 	getLeaderboard(t, event.ID)
 }
 
-func createUsers(t *testing.T) []User {
+func createUsers(t *testing.T) []models.User {
 	var wg sync.WaitGroup
-	users := make([]User, userCount)
-	userChan := make(chan User, userCount)
+	users := make([]models.User, userCount)
+	userChan := make(chan models.User, userCount)
 
 	for i := 0; i < userCount; i++ {
 		wg.Add(1)
@@ -78,7 +66,7 @@ func createUsers(t *testing.T) []User {
 	return users
 }
 
-func createUser(t *testing.T) User {
+func createUser(t *testing.T) models.User {
 	username := fmt.Sprintf("testuser-%s", uuid.New().String())
 	payload := map[string]string{"username": username, "country": "US"}
 	jsonPayload, _ := json.Marshal(payload)
@@ -89,16 +77,16 @@ func createUser(t *testing.T) User {
 	}
 	defer resp.Body.Close()
 
-	var user User
+	var user models.User
 	json.NewDecoder(resp.Body).Decode(&user)
 	return user
 }
 
-func setUserLevels(t *testing.T, users []User) {
+func setUserLevels(t *testing.T, users []models.User) {
 	var wg sync.WaitGroup
 	for _, user := range users {
 		wg.Add(1)
-		go func(u User) {
+		go func(u models.User) {
 			defer wg.Done()
 			setUserLevel(t, u.ID)
 		}(user)
@@ -118,7 +106,7 @@ func setUserLevel(t *testing.T, userID string) {
 	defer resp.Body.Close()
 }
 
-func createEvent(t *testing.T) Event {
+func createEvent(t *testing.T) models.Event {
 	name := fmt.Sprintf("Event-%s", time.Now().Format(time.RFC3339))
 	startTime := time.Now().UTC()
 	endTime := startTime.Add(30 * 24 * time.Hour)
@@ -136,16 +124,16 @@ func createEvent(t *testing.T) Event {
 	}
 	defer resp.Body.Close()
 
-	var event Event
+	var event models.Event
 	json.NewDecoder(resp.Body).Decode(&event)
 	return event
 }
 
-func joinUsersToEvent(t *testing.T, users []User, eventID string) {
+func joinUsersToEvent(t *testing.T, users []models.User, eventID string) {
 	var wg sync.WaitGroup
 	for _, user := range users {
 		wg.Add(1)
-		go func(u User) {
+		go func(u models.User) {
 			defer wg.Done()
 			joinEvent(t, eventID, u.ID)
 		}(user)
@@ -164,7 +152,7 @@ func joinEvent(t *testing.T, eventID, userID string) {
 	defer resp.Body.Close()
 }
 
-func updateLeaderboard(t *testing.T, users []User, eventID string) {
+func updateLeaderboard(t *testing.T, users []models.User, eventID string) {
 	var wg sync.WaitGroup
 	for i := 0; i < updateCount; i++ {
 		wg.Add(1)

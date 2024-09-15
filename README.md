@@ -1,3 +1,18 @@
+# Leaderboard API
+
+This project implements a REST API using Golang for managing user profiles, events, and leaderboards. It supports both group and country-based leaderboards, with specific rules for user participation and rewards.
+
+
+## Features
+
+- User profile management (create, update, set level, set coin)
+- Event participation and management
+- Real-time group and country-based leaderboards
+- Leaderboard progress tracking
+- Reward claiming system
+- Admin operations for event and user management
+
+
 # Getting Started
 
 This section provides instructions on how to set up and run the Leaderboard API project locally, as well as how to deploy it.
@@ -58,14 +73,13 @@ graph TD
 
 ## Running locally
 
-### Prerequisites
+## Prerequisites
 
-1. Go 1.22.6 or later
-2. Docker
-3. ClickHouse
-4. Redis
-5. SQLite
-
+- [Go 1.22.6 or later](https://golang.org/dl/)
+- [Docker](https://www.docker.com/get-started)
+- [ClickHouse](https://clickhouse.com/docs/en/install)
+- [Redis](https://redis.io/download)
+- [SQLite](https://www.sqlite.org/download.html)
 
 ### Environment Setup
 
@@ -85,6 +99,11 @@ graph TD
    CLICKHOUSE_PORT=8123
    CLICKHOUSE_USER=default
    CLICKHOUSE_PASSWORD=password
+   ```
+
+3. Install dependencies:
+   ```bash
+   go mod download
    ```
 
 ### Build and Run
@@ -150,7 +169,34 @@ graph TD
 
 For more detailed information on the API endpoints and usage, refer to the API Reference section below.
 
+## API Documentation
 
+### User Operations
+
+- `POST /user/profile`: Set or update user profile
+- `POST /user/level`: Set user level
+- `POST /user/coin`: Set user coin amount
+
+### Event Operations
+
+- `POST /event/join`: Join an event
+- `POST /event/leaderboard/progress`: Update leaderboard progress
+- `GET /event/leaderboard`: Get group leaderboard
+- `GET /event/country-leaderboard`: Get country leaderboard
+- `POST /event/leaderboard/claim`: Claim leaderboard reward
+
+### Admin Operations
+
+- `POST /admin/event`: Create a new event
+- `GET /admin/events`: List all events
+- `DELETE /admin/event`: Delete an event
+- `GET /admin/user`: Get user details
+- `GET /admin/users`: List all users
+- `POST /admin/user/ban`: Ban a user
+- `POST /admin/user/unban`: Unban a user
+- `POST /admin/leaderboard/reset`: Reset a leaderboard
+
+For detailed request/response formats, refer to the API specification document.
 
 
 
@@ -586,3 +632,18 @@ Details (average, fastest, slowest):
 Status code distribution:
   [200] 1000 responses
 ```
+
+
+
+### Running the load test with Go
+
+
+There is also a test function in 'tests/load_test.go' file.
+
+You can run it with:
+
+```go
+ go test -timeout 60s -run ^TestLoad$ github.com/ycd/leaderboard/tests -v -count=1
+ ```
+
+Note: Increase the timeout depending on your internet speed, it may take longer on slower network conditions.
