@@ -644,48 +644,48 @@ hey -n 1000 -c 200 http://api.leaderboard.yagizdegirmenci.com/event/leaderboard\
 ### Test Results
 ```bash
 Summary:
-  Total:        15.3399 secs
-  Slowest:      13.8850 secs
-  Fastest:      0.1635 secs
-  Average:      1.7753 secs
-  Requests/sec: 65.1894
+  Total:        3.0682 secs
+  Slowest:      1.8521 secs
+  Fastest:      0.0478 secs
+  Average:      0.4830 secs
+  Requests/sec: 325.9264
 
-  Total data:   139000 bytes
-  Size/request: 139 bytes
 
 Response time histogram:
-  0.164 [1]     |
-  1.536 [660]   |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  2.908 [176]   |■■■■■■■■■■■
-  4.280 [55]    |■■■
-  5.652 [22]    |■
-  7.024 [49]    |■■■
-  8.396 [9]     |■
-  9.769 [14]    |■
-  11.141 [13]   |■
-  12.513 [0]    |
-  13.885 [1]    |
+  0.048 [1]     |
+  0.228 [351]   |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.409 [154]   |■■■■■■■■■■■■■■■■■■
+  0.589 [172]   |■■■■■■■■■■■■■■■■■■■■
+  0.770 [117]   |■■■■■■■■■■■■■
+  0.950 [76]    |■■■■■■■■■
+  1.130 [59]    |■■■■■■■
+  1.311 [12]    |■
+  1.491 [22]    |■■■
+  1.672 [16]    |■■
+  1.852 [20]    |■■
 
 
 Latency distribution:
-  10% in 0.3201 secs
-  25% in 0.4489 secs
-  50% in 0.9140 secs
-  75% in 2.4111 secs
-  90% in 4.6913 secs
-  95% in 6.5455 secs
-  99% in 10.2765 secs
+  10% in 0.0716 secs
+  25% in 0.1326 secs
+  50% in 0.3927 secs
+  75% in 0.6861 secs
+  90% in 1.0264 secs
+  95% in 1.3328 secs
+  99% in 1.7978 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:   0.0020 secs, 0.1635 secs, 13.8850 secs
-  DNS-lookup:   0.0005 secs, 0.0000 secs, 0.0052 secs
-  req write:    0.0000 secs, 0.0000 secs, 0.0017 secs
-  resp wait:    1.7732 secs, 0.1634 secs, 13.8710 secs
-  resp read:    0.0001 secs, 0.0000 secs, 0.0031 secs
+  DNS+dialup:   0.0111 secs, 0.0478 secs, 1.8521 secs
+  DNS-lookup:   0.0057 secs, 0.0000 secs, 0.0617 secs
+  req write:    0.0003 secs, 0.0000 secs, 0.0093 secs
+  resp wait:    0.4715 secs, 0.0474 secs, 1.7893 secs
+  resp read:    0.0002 secs, 0.0000 secs, 0.0109 secs
 
 Status code distribution:
   [200] 1000 responses
 ```
+
+### Run the Load test with a Request Body
 
 
 
@@ -701,3 +701,15 @@ You can run it with:
  ```
 
 Note: Increase the timeout depending on your internet speed, it may take longer on slower network conditions.
+
+
+### Create Mock Data
+
+You can create mock data with the following command:
+
+```go
+go run cmd/mock_data/main.go
+```
+
+
+It is some sort of a stress test,

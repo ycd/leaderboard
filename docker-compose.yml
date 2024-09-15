@@ -88,7 +88,7 @@ services:
     networks:
       - backend
     volumes:
-      - redis-data:/data
+      - /mnt/disks/disk-1/redis-data:/data
     healthcheck:
       test: [ "CMD", "redis-cli", "-a", "8fh21f289j2ıfhjıvs844", "ping" ]
       interval: 30s
@@ -102,13 +102,15 @@ services:
       CLICKHOUSE_DB: "default"
       CLICKHOUSE_USER: "default"
       CLICKHOUSE_PASSWORD: "clickhouse_password"
+      MAX_MEMORY_USAGE: 4000000000 # 4GB
+      MAX_MEMORY_USAGE_FOR_ALL_QUERIES: 3000000000 # 3GB
     ports:
       - "9000:9000"
       - "8123:8123"
     networks:
       - backend
     volumes:
-      - clickhouse-data:/var/lib/clickhouse
+      - /mnt/disks/disk-1/clickhouse-data:/var/lib/clickhouse
     healthcheck:
       test: [ "CMD", "clickhouse-client", "--password", "clickhouse_password", "--query", "SELECT 1" ]
       interval: 30s
