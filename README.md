@@ -18,7 +18,6 @@ This project implements a REST API using Golang for managing user profiles, even
     - [Testing](#testing)
 - [Deployment](#deployment)
   - [Cloud Deployment (Example for AWS)](#cloud-deployment-example-for-aws)
-  - [Scaling Considerations](#scaling-considerations)
 - [API Documentation](#api-documentation)
   - [User Operations](#user-operations)
   - [Event Operations](#event-operations)
@@ -187,30 +186,11 @@ Now, the API is available on http://localhost:8080 on your host machine.
 ## Cloud Deployment (Example for AWS)
 
 1. Set up an EC2 instance or ECS cluster
-2. Set up a Redis instance (ElastiCache)
-3. Set up a ClickHouse instance (self-hosted or managed service)
-4. Deploy the API using Docker:
+2. Deploy the API using Docker:
    ```bash
-   docker run -d -p 8080:8080 \
-     -e PORT=8080 \
-     -e REDIS_HOST=your_redis_host \
-     -e REDIS_PORT=your_redis_port \
-     -e REDIS_PASSWORD=your_redis_password \
-     -e CLICKHOUSE_HOST=your_clickhouse_host \
-     -e CLICKHOUSE_PORT=your_clickhouse_port \
-     -e CLICKHOUSE_USER=your_clickhouse_user \
-     -e CLICKHOUSE_PASSWORD=your_clickhouse_password \
-     leaderboard-api
+   docker compose up --build
    ```
-
-## Scaling Considerations
-
-- Use a load balancer to distribute traffic across multiple API instances
-- Implement caching strategies using Redis for frequently accessed data
-- Optimize ClickHouse queries and indexing for large-scale leaderboard operations
-- Consider using a message queue (e.g., RabbitMQ, Kafka) for asynchronous processing of leaderboard updates
-
-For more detailed information on the API endpoints and usage, refer to the API Reference section below.
+3. The API will be available on http://<your-ec2-instance-public-ip>:8080
 
 ## API Documentation
 

@@ -29,7 +29,7 @@ COPY --from=builder /bin/leaderboard-api /bin/leaderboard-api
 ENV PORT=8080
 
 # Expose the port the app runs on
-EXPOSE 8080
+EXPOSE $PORT
 
 # Run the binary
 ENTRYPOINT ["/bin/leaderboard-api"]
