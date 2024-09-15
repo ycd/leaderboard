@@ -71,8 +71,8 @@ func createUser() models.User {
 }
 
 func main() {
-	numUsers := 20
-	eventMul := 10
+	numUsers := 70
+	eventMul := 15
 
 	var users []models.User
 
@@ -163,18 +163,17 @@ func main() {
 
 			resp, err := sendRequest("POST", "/event/join", payload)
 			if err != nil {
-				log.Printf("Failed to update leaderboard: %v", err)
 				return
 			}
 			if resp.StatusCode != http.StatusOK {
-				log.Printf("Failed to join event: %v", resp.StatusCode)
 				return
 			}
 
 			defer resp.Body.Close()
 		}(user.ID)
+
+		wg.Wait()
 	}
-	wg.Wait()
 	joinEventTime := time.Since(startTime)
 	log.Printf("Joined event for %d users in %v", len(users), joinEventTime)
 
