@@ -112,7 +112,7 @@ This section provides instructions on how to set up and run the Leaderboard API 
 You can also use the deployed version of this project instead of spinning up from scratch.
 
 
-The API is available on: http://leaderboard.yagizdegirmenci.com:8080
+The API is available on: http://api.leaderboard.yagizdegirmenci.com
 
 
 
@@ -131,7 +131,7 @@ The API is available on: http://leaderboard.yagizdegirmenci.com:8080
    docker compose up --build
    ```
 
-Now, the API is available on http://localhost:8080 on your host machine.
+Now, the API is available on http://api.leaderboard.yagizdegirmenci.com on your host machine.
 
 
 
@@ -276,7 +276,7 @@ POST /user/profile
 
 #### Request
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/user/profile' \
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/user/profile' \
 --header 'Content-Type: application/json' \
 --data '{
     "username": "testuser-41414141414141414141414141",
@@ -311,7 +311,7 @@ POST /user/level
 
 #### Request
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/user/level' \
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/user/level' \
 --header 'Content-Type: application/json' \
 --data '{
     "user_id": "5d8d253c-b033-483b-b7d1-a00d0bfaee7f",
@@ -343,7 +343,7 @@ POST /user/coin
 
 #### Request
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/user/coin' \
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/user/coin' \
 --header 'Content-Type: application/json' \
 --data '{
     "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d1",
@@ -377,7 +377,7 @@ POST /admin/event
 
 #### Request
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/admin/event' \
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/admin/event' \
 --header 'Content-Type: application/json' \
 --data '{
     "name": "alekhine",
@@ -412,7 +412,7 @@ POST /event/join
 
 #### Request
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/event/join' \
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/event/join' \
 --header 'Content-Type: application/json' \
 --data '{
     "event_id": "event-12345",
@@ -447,7 +447,7 @@ POST /event/leaderboard/progress
 #### Request
 
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/event/leaderboard/progress' \
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/event/leaderboard/progress' \
 --header 'Content-Type: application/json' \
 --data '{
     "event_id": "5af98d12-2fcd-47ed-90bc-e13b3cdf6315",
@@ -483,7 +483,7 @@ GET /leaderboard
 
 #### Request
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/event/leaderboard?event_id=e172f307-d760-44c8-b27d-014d0409a16f&limit=100'
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/event/leaderboard?event_id=e172f307-d760-44c8-b27d-014d0409a16f&limit=100'
 ```
 
 #### Response
@@ -525,7 +525,7 @@ GET /country/leaderboard
 #### Request
 
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/country/leaderboard?event_id=e172f307-d760-44c8-b27d-014d0409a16f&limit=100&country=US'
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/country/leaderboard?event_id=e172f307-d760-44c8-b27d-014d0409a16f&limit=100&country=US'
 ```
 
 #### Response
@@ -566,7 +566,7 @@ POST /claim/reward
 
 #### Request
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/claim/reward' \
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/claim/reward' \
 --header 'Content-Type: application/json' \
 --data '{
     "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d1",
@@ -637,7 +637,7 @@ An example tests with 1000 request with 200 concurrency.
 
 ### Example Test
 ```
-hey -n 1000 -c 200 http://leaderboard.yagizdegirmenci.com:8080/event/leaderboard\?event_id\=f8b14ae0-b8ce-406e-bb9e-d26c098db60b\&limit\=10
+hey -n 1000 -c 200 http://api.leaderboard.yagizdegirmenci.com/event/leaderboard\?event_id\=f8b14ae0-b8ce-406e-bb9e-d26c098db60b\&limit\=10
 ```
 
 

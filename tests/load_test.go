@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	baseURL     = "http://leaderboard.yagizdegirmenci.com:8080"
+	baseURL     = "http://api.leaderboard.yagizdegirmenci.com"
 	userCount   = 1000
 	updateCount = 20000
 )

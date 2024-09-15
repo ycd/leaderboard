@@ -10,7 +10,7 @@ generate_random_username() {
 # Function to create a user and return the user ID
 create_user() {
     local username=$(generate_random_username)
-    local response=$(curl -s -X POST 'http://localhost:8080/user/profile' \
+    local response=$(curl -s -X POST 'http://api.leaderboard.yagizdegirmenci.com/user/profile' \
         -H 'Content-Type: application/json' \
         -d "{\"username\": \"$username\", \"country\": \"US\"}")
     echo $response | jq -r '.id'
@@ -20,7 +20,7 @@ create_user() {
 set_user_level() {
     local user_id=$1
     local level=$((RANDOM % 20 + 81))  # Random level between 81 and 100
-    curl -s -X POST 'http://localhost:8080/user/level' \
+    curl -s -X POST 'http://api.leaderboard.yagizdegirmenci.com/user/level' \
         -H 'Content-Type: application/json' \
         -d "{\"user_id\": \"$user_id\", \"level\": $level}"
 }
@@ -30,7 +30,7 @@ create_event() {
     local name="Event-$(date +%s)"
     local start_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     local end_time=$(date -u -v+30d +"%Y-%m-%dT%H:%M:%SZ")
-    local response=$(curl -s -X POST 'http://localhost:8080/admin/event' \
+    local response=$(curl -s -X POST 'http://api.leaderboard.yagizdegirmenci.com/admin/event' \
         -H 'Content-Type: application/json' \
         -d "{\"name\": \"$name\", \"start_time\": \"$start_time\", \"end_time\": \"$end_time\"}")
     echo $response | jq -r '.id'
@@ -40,7 +40,7 @@ create_event() {
 join_event() {
     local event_id=$1
     local user_id=$2
-    curl -s -X POST 'http://localhost:8080/event/join' \
+    curl -s -X POST 'http://api.leaderboard.yagizdegirmenci.com/event/join' \
         -H 'Content-Type: application/json' \
         -d "{\"event_id\": \"$event_id\", \"user_id\": \"$user_id\"}"
 }
@@ -50,7 +50,7 @@ update_leaderboard() {
     local event_id=$1
     local user_id=$2
     local score=$((RANDOM % 10000 + 1))  # Random score between 1 and 10000
-    curl -s -X POST 'http://localhost:8080/event/leaderboard/progress' \
+    curl -s -X POST 'http://api.leaderboard.yagizdegirmenci.com/event/leaderboard/progress' \
         -H 'Content-Type: application/json' \
         -d "{\"event_id\": \"$event_id\", \"user_id\": \"$user_id\", \"score\": $score}"
 }
