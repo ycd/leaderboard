@@ -43,9 +43,9 @@ services:
     restart: on-failure
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api1.rule=PathPrefix(`/`)"
-      - "traefik.http.routers.api1.entrypoints=web"
-      - "traefik.http.services.api1.loadbalancer.server.port=8081"
+      - "traefik.http.routers.api.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.api.entrypoints=web"
+      - "traefik.http.services.api.loadbalancer.server.port=8081"
 
   leaderboard-api-2:
     build:
@@ -75,9 +75,9 @@ services:
     restart: on-failure
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api2.rule=PathPrefix(`/`)"
-      - "traefik.http.routers.api2.entrypoints=web"
-      - "traefik.http.services.api2.loadbalancer.server.port=8082"
+      - "traefik.http.routers.api.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.api.entrypoints=web"
+      - "traefik.http.services.api.loadbalancer.server.port=8082"
 
   redis:
     image: redis:7.0-alpine
