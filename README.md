@@ -300,6 +300,16 @@ POST /user/profile
 | `username`| string | **Required**. The user's username |
 | `country` | string | **Required**. The user's country (e.g., US) |
 
+#### Request
+```
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/user/profile' \
+--header 'Content-Type: application/json' \
+--data '{
+    "username": "testuser-41414141414141414141414141",
+    "country": "US"
+}'
+```
+
 #### Response
 
 ```json
@@ -325,6 +335,16 @@ POST /user/level
 | `user_id` | string | **Required**. The user's ID (UUID) |
 | `level`   | int    | **Required**. The level to set (81-100) |
 
+#### Request
+```
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/user/level' \
+--header 'Content-Type: application/json' \
+--data '{
+    "user_id": "5d8d253c-b033-483b-b7d1-a00d0bfaee7f",
+    "level": 94
+}'
+```
+
 #### Response
 
 ```json
@@ -346,6 +366,17 @@ POST /user/coin
 | :-------- | :----- | :--------------------------------- |
 | `user_id` | string | **Required**. The user's ID (UUID) |
 | `coin`    | int    | **Required**. The amount of coins to set |
+
+#### Request
+```
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/user/coin' \
+--header 'Content-Type: application/json' \
+--data '{
+    "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d1",
+    "coin": 100
+}'
+```
+
 
 #### Response
 
@@ -478,7 +509,7 @@ GET /leaderboard
 
 #### Request
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/leaderboard?event_id=event-12345&limit=10'
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/event/leaderboard?event_id=e172f307-d760-44c8-b27d-014d0409a16f&limit=100'
 ```
 
 #### Response
@@ -520,7 +551,7 @@ GET /country/leaderboard
 #### Request
 
 ```
-curl --location 'http://leaderboard.yagizdegirmenci.com:8080/country/leaderboard?event_id=event-12345&country=US&limit=10'
+curl --location 'http://leaderboard.yagizdegirmenci.com:8080/country/leaderboard?event_id=e172f307-d760-44c8-b27d-014d0409a16f&limit=100&country=US'
 ```
 
 #### Response
