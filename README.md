@@ -523,7 +523,7 @@ curl --location 'http://api.leaderboard.yagizdegirmenci.com/event/leaderboard?ev
 ### Get Country Leaderboard
 
 ```http
-GET /country/leaderboard
+GET /event/country-leaderboard
 ```
 
 | Parameter | Type   | Description                                |
@@ -535,7 +535,7 @@ GET /country/leaderboard
 #### Request
 
 ```
-curl --location 'http://api.leaderboard.yagizdegirmenci.com/country/leaderboard?event_id=c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5&limit=100&country=US'
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/event/country-leaderboard?event_id=c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5&limit=100&country=US'
 ```
 
 #### Response
