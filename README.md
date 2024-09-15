@@ -142,7 +142,7 @@ Now, the API is available on http://0.0.0.0:80 on your host machine.
 
 
 
-#### Without Docker
+# Without Docker
 
 ## Prerequisites
 
@@ -170,11 +170,6 @@ Now, the API is available on http://0.0.0.0:80 on your host machine.
    CLICKHOUSE_PORT=8123
    CLICKHOUSE_USER=default
    CLICKHOUSE_PASSWORD=password
-   ```
-
-3. Install dependencies:
-   ```bash
-   go mod download
    ```
 
 
@@ -387,7 +382,7 @@ POST /admin/event
 curl --location 'http://api.leaderboard.yagizdegirmenci.com/admin/event' \
 --header 'Content-Type: application/json' \
 --data '{
-    "name": "alekhine",
+    "name": "masters",
     "start_time": "2023-09-01T00:00:00Z",
     "end_time": "2023-09-30T23:59:59Z"
 }'
@@ -397,8 +392,8 @@ curl --location 'http://api.leaderboard.yagizdegirmenci.com/admin/event' \
 
 ```json
 {
-  "id": "event-12345",
-  "name": "Event-1623456789",
+  "id": "c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5",
+  "name": "masters",
   "start_time": "2023-07-29T12:34:56Z",
   "end_time": "2023-08-28T12:34:56Z"
 }
@@ -422,8 +417,8 @@ POST /event/join
 curl --location 'http://api.leaderboard.yagizdegirmenci.com/event/join' \
 --header 'Content-Type: application/json' \
 --data '{
-    "event_id": "event-12345",
-    "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d1"
+    "event_id": "c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5",
+    "user_id": "e18e9b24-f251-402f-b3fd-e6404431d3d2"
 }'
 ```
 
@@ -457,9 +452,9 @@ POST /event/leaderboard/progress
 curl --location 'http://api.leaderboard.yagizdegirmenci.com/event/leaderboard/progress' \
 --header 'Content-Type: application/json' \
 --data '{
-    "event_id": "5af98d12-2fcd-47ed-90bc-e13b3cdf6315",
-    "user_id": "3fe23fbb-22ae-4543-9919-f32e4ac2afe9",
-    "score": 1000
+    "event_id": "c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5",
+    "user_id": "eae8f8ec-d118-45aa-b6c6-02997d071b1d",
+    "score": 42
 }'
 ```
 
@@ -490,28 +485,36 @@ GET /leaderboard
 
 #### Request
 ```
-curl --location 'http://api.leaderboard.yagizdegirmenci.com/event/leaderboard?event_id=e172f307-d760-44c8-b27d-014d0409a16f&limit=100'
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/event/leaderboard?event_id=c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5&limit=100'
 ```
 
 #### Response
 
 ```json
 {
-  "event_id": "event-12345",
-  "entries": [
-    {
-      "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d1",
-      "username": "user1",
-      "score": 9500,
-      "rank": 1
-    },
-    {
-      "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d2",
-      "username": "user2",
-      "score": 9000,
-      "rank": 2
-    }
-  ]
+    "event_id": "c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5",
+    "entries": [
+        {
+            "user_id": "eae3edd8-d901-4f97-aea2-e8aa4751b67c",
+            "total_score": 982,
+            "rank": 1
+        },
+        {
+            "user_id": "5168b3e2-b13b-4e9c-9f7e-d96e623ff32f",
+            "total_score": 975,
+            "rank": 2
+        },
+        {
+            "user_id": "25f19803-0093-40b8-a0db-e36e0d92df76",
+            "total_score": 874,
+            "rank": 3
+        },
+        {
+            "user_id": "eae8f8ec-d118-45aa-b6c6-02997d071b1d",
+            "total_score": 835,
+            "rank": 4
+        },
+    ]
 }
 ```
 
@@ -532,29 +535,40 @@ GET /country/leaderboard
 #### Request
 
 ```
-curl --location 'http://api.leaderboard.yagizdegirmenci.com/country/leaderboard?event_id=e172f307-d760-44c8-b27d-014d0409a16f&limit=100&country=US'
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/country/leaderboard?event_id=c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5&limit=100&country=US'
 ```
 
 #### Response
 
 ```json
 {
-  "event_id": "event-12345",
-  "country": "US",
-  "entries": [
-    {
-      "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d1",
-      "username": "user1",
-      "score": 9500,
-      "rank": 1
-    },
-    {
-      "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d3",
-      "username": "user3",
-      "score": 9000,
-      "rank": 2
-    }
-  ]
+    "event_id": "c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5",
+    "entries": [
+        {
+            "user_id": "eae3edd8-d901-4f97-aea2-e8aa4751b67c",
+            "country": "US",
+            "total_score": 982,
+            "rank": 1
+        },
+        {
+            "user_id": "5168b3e2-b13b-4e9c-9f7e-d96e623ff32f",
+            "country": "US",
+            "total_score": 975,
+            "rank": 2
+        },
+        {
+            "user_id": "25f19803-0093-40b8-a0db-e36e0d92df76",
+            "country": "US",
+            "total_score": 874,
+            "rank": 3
+        },
+        {
+            "user_id": "eae8f8ec-d118-45aa-b6c6-02997d071b1d",
+            "country": "US",
+            "total_score": 835,
+            "rank": 4
+        },
+    ]
 }
 ```
 
@@ -576,8 +590,8 @@ POST /claim/reward
 curl --location 'http://api.leaderboard.yagizdegirmenci.com/claim/reward' \
 --header 'Content-Type: application/json' \
 --data '{
-    "user_id": "64f6faea-db27-415f-a7bc-6b8cd8e893d1",
-    "event_id": "event-12345"
+    "user_id": "eae3edd8-d901-4f97-aea2-e8aa4751b67c",
+    "event_id": "c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5"
 }'
 ```
 
@@ -719,4 +733,56 @@ go run cmd/mock_data/main.go
 ```
 
 
-It is some sort of a stress test,
+It is some sort of a stress test, and you can start exploring the API right away the the job is finished.
+
+```bash
+2024/09/15 15:15:02 Created 70 users in 418.801017ms
+2024/09/15 15:15:02 Updated level for 70 users in 253.072564ms
+2024/09/15 15:15:02 Created event: {{c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5 masters 2024-09-01 00:00:00 +0000 UTC 2024-09-30 23:59:59 +0000 UTC}} in 72.775924ms
+2024/09/15 15:15:02 Event ID: c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5
+2024/09/15 15:15:07 Joined event for 70 users in 4.545786364s
+2024/09/15 15:15:35 Updated leaderboard with 700 progress events in 28.394943852s
+2024/09/15 15:15:36 Retrieved leaderboard in 262.957344ms
+2024/09/15 15:15:36 Load test completed
+2024/09/15 15:15:36 Total users created: 70
+2024/09/15 15:15:36 Total events created: 1
+2024/09/15 15:15:36 Total leaderboard updates: 1050
+```
+
+
+## Send a request
+
+```bash
+curl --location 'http://api.leaderboard.yagizdegirmenci.com/event/leaderboard?event_id=c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5&limit=100'
+```
+
+
+## Explore the data
+
+```json
+{
+    "event_id": "c11ebca8-3c95-4d2c-a6f4-01e9b5e356c5",
+    "entries": [
+        {
+            "user_id": "eae3edd8-d901-4f97-aea2-e8aa4751b67c",
+            "total_score": 982,
+            "rank": 1
+        },
+        {
+            "user_id": "5168b3e2-b13b-4e9c-9f7e-d96e623ff32f",
+            "total_score": 975,
+            "rank": 2
+        },
+        {
+            "user_id": "25f19803-0093-40b8-a0db-e36e0d92df76",
+            "total_score": 874,
+            "rank": 3
+        },
+        {
+            "user_id": "eae8f8ec-d118-45aa-b6c6-02997d071b1d",
+            "total_score": 835,
+            "rank": 4
+        },
+    ]
+}
+```
